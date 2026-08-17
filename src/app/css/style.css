@@ -618,8 +618,9 @@ input[type="search"]::-webkit-search-results-decoration {
 
   font-size: 10px !important;
   font-weight: 700 !important;
-
   line-height: 1;
+
+  white-space: nowrap;
 
   transition:
     background-color 180ms ease,

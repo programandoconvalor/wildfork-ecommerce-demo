@@ -743,7 +743,14 @@ const Header = () => {
                     href="/products"
                     className="wf-sale"
                   >
-                    SALE
+                    
+ 
+<span
+  className="px-2 h-5 flex items-center justify-center text-xs text-white"
+  style={{ backgroundColor: "var(--wf-orange)" }}
+>
+  SALE
+</span>
                   </Link>
                 </li>
               </ul>
