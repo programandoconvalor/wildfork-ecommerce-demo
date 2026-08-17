@@ -100,9 +100,9 @@ const QuickViewModal = () => {
   /*
    * Remove duplicate image URLs while preserving order.
    */
-  const uniqueProductImages = [
-    ...new Set(productImages),
-  ];
+  const uniqueProductImages = Array.from(
+  new Set(productImages),
+);
 
   const thumbnails =
     uniqueProductImages;
