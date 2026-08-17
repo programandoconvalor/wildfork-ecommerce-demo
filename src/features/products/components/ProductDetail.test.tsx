@@ -17,7 +17,6 @@ import {
 } from "vitest";
 
 import { ProductDetail } from "./ProductDetail";
-
 import { useProduct } from "../hooks/use-product";
 
 import { addItem } from "@/features/cart/store/cart.slice";
@@ -174,12 +173,14 @@ describe("ProductDetail", () => {
 
     expect(
       screen.queryByRole("button", {
-        name: "Add to Cart",
+        name: /add .* to cart/i,
       }),
     ).not.toBeInTheDocument();
 
     expect(
-      screen.queryByText("Description"),
+      screen.queryByText(
+        "Product description",
+      ),
     ).not.toBeInTheDocument();
   });
 
@@ -203,7 +204,7 @@ describe("ProductDetail", () => {
 
     expect(
       screen.getByRole("heading", {
-        name: "Unable to load product",
+        name: "Product not found",
       }),
     ).toBeInTheDocument();
 
@@ -215,14 +216,14 @@ describe("ProductDetail", () => {
 
     const retryButton =
       screen.getByRole("button", {
-        name: "Retry",
+        name: "Try again",
       });
 
     expect(retryButton).toBeInTheDocument();
 
     expect(
       screen.getByRole("link", {
-        name: "Back to products",
+        name: "Browse products",
       }),
     ).toHaveAttribute(
       "href",
@@ -249,8 +250,10 @@ describe("ProductDetail", () => {
     ).toBeInTheDocument();
 
     expect(
-      screen.getByText(product.category),
-    ).toBeInTheDocument();
+      screen.getAllByText(
+        product.category,
+      ).length,
+    ).toBeGreaterThan(0);
 
     expect(
       screen.getByText("$9.99"),
@@ -264,16 +267,20 @@ describe("ProductDetail", () => {
 
     expect(
       screen.getByRole("heading", {
-        name: "Description",
+        name: "Product description",
       }),
     ).toBeInTheDocument();
 
     expect(
-      screen.getByText(product.description),
+      screen.getByText(
+        product.description,
+      ),
     ).toBeInTheDocument();
 
     expect(
-      screen.getByTestId("product-gallery"),
+      screen.getByTestId(
+        "product-gallery",
+      ),
     ).toBeInTheDocument();
   });
 
@@ -309,7 +316,7 @@ describe("ProductDetail", () => {
 
     const addButton =
       screen.getByRole("button", {
-        name: "Add to Cart",
+        name: /add .* to cart/i,
       });
 
     expect(addButton).toBeEnabled();
@@ -362,13 +369,18 @@ describe("ProductDetail", () => {
 
     render(<ProductDetail />);
 
+    const outOfStockMessages =
+      screen.getAllByText(
+        "Out of stock",
+      );
+
     expect(
-      screen.getByText("Out of stock"),
-    ).toBeInTheDocument();
+      outOfStockMessages.length,
+    ).toBeGreaterThan(0);
 
     const addButton =
       screen.getByRole("button", {
-        name: "Out of Stock",
+        name: /out of stock/i,
       });
 
     expect(addButton).toBeDisabled();

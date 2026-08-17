@@ -21,13 +21,17 @@ import {
 import { ProductListing } from "./ProductListing";
 import { useProducts } from "../hooks/use-products";
 
+import {
+  ProductFiltersProvider,
+} from "../context/ProductFiltersContext";
+
 vi.mock("../hooks/use-products", () => ({
   useProducts: vi.fn(),
 }));
 
 /**
- * Mock ProductGrid so this test focuses only on
- * ProductListing behavior.
+ * Mock ProductGrid so these tests focus only on
+ * ProductListing filtering and sorting behavior.
  */
 vi.mock("./ProductGrid", () => ({
   ProductGrid: ({
@@ -36,6 +40,7 @@ vi.mock("./ProductGrid", () => ({
     products: Array<{
       id: number;
       title: string;
+      description: string;
       price: number;
       category: string;
     }>;
@@ -47,7 +52,11 @@ vi.mock("./ProductGrid", () => ({
           data-testid="product-card"
         >
           <h2>{product.title}</h2>
+
+          <p>{product.description}</p>
+
           <span>{product.price}</span>
+
           <span>{product.category}</span>
         </article>
       ))}
@@ -55,28 +64,64 @@ vi.mock("./ProductGrid", () => ({
   ),
 }));
 
-const mockedUseProducts = vi.mocked(useProducts);
+const mockedUseProducts =
+  vi.mocked(useProducts);
 
 const products = [
   {
     id: 1,
     title: "Essence Mascara Lash Princess",
+    description:
+      "A popular mascara known for its volumizing and lengthening effects.",
     price: 9.99,
     category: "beauty",
   },
   {
     id: 2,
     title: "Red Lipstick",
+    description:
+      "A classic red lipstick with a smooth and long-lasting finish.",
     price: 12.99,
     category: "beauty",
   },
   {
     id: 3,
     title: "Apple",
+    description:
+      "Fresh and crisp apple suitable for everyday consumption.",
     price: 1.99,
     category: "groceries",
   },
 ];
+
+/**
+ * Render ProductListing with the same
+ * ProductFiltersProvider required by
+ * the production component.
+ */
+const renderProductListing = () => {
+  return render(
+    <ProductFiltersProvider>
+      <ProductListing />
+    </ProductFiltersProvider>,
+  );
+};
+
+/**
+ * The desktop and mobile sort controls both
+ * have the accessible name "Sort by".
+ *
+ * The first combobox corresponds to the desktop
+ * filter panel.
+ */
+const getDesktopSortSelect = () => {
+  const sortSelects =
+    screen.getAllByRole("combobox", {
+      name: "Sort by",
+    });
+
+  return sortSelects[0];
+};
 
 afterEach(() => {
   cleanup();
@@ -94,14 +139,24 @@ describe("ProductListing", () => {
       isError: false,
       error: null,
       refetch: vi.fn(),
-    } as unknown as ReturnType<typeof useProducts>);
+    } as unknown as ReturnType<
+      typeof useProducts
+    >);
   });
 
+  /**
+   * -------------------------------------------------------
+   * Product rendering
+   * -------------------------------------------------------
+   */
+
   it("renders the products", () => {
-    render(<ProductListing />);
+    renderProductListing();
 
     expect(
-      screen.getByText("Essence Mascara Lash Princess"),
+      screen.getByText(
+        "Essence Mascara Lash Princess",
+      ),
     ).toBeInTheDocument();
 
     expect(
@@ -113,15 +168,19 @@ describe("ProductListing", () => {
     ).toBeInTheDocument();
   });
 
-  it("filters products by search", () => {
-    render(<ProductListing />);
+  /**
+   * -------------------------------------------------------
+   * Search filtering
+   * -------------------------------------------------------
+   */
 
-    const searchInput = screen.getByRole(
-      "searchbox",
-      {
-        name: "Search products",
-      },
-    );
+  it("filters products by search", () => {
+    renderProductListing();
+
+    const searchInput =
+      screen.getByRole("searchbox", {
+        name: "Search",
+      });
 
     fireEvent.change(searchInput, {
       target: {
@@ -144,21 +203,27 @@ describe("ProductListing", () => {
     ).not.toBeInTheDocument();
   });
 
+  /**
+   * -------------------------------------------------------
+   * Category filtering
+   * -------------------------------------------------------
+   *
+   * ProductListing uses radio buttons for categories.
+   */
+
   it("filters products by category", () => {
-    render(<ProductListing />);
+    renderProductListing();
 
-    const categorySelect = screen.getByRole(
-      "combobox",
-      {
-        name: "Category",
-      },
-    );
+    const beautyRadio =
+      screen.getByRole("radio", {
+        name: "beauty",
+      });
 
-    fireEvent.change(categorySelect, {
-      target: {
-        value: "beauty",
-      },
-    });
+    fireEvent.click(beautyRadio);
+
+    expect(
+      beautyRadio,
+    ).toBeChecked();
 
     expect(
       screen.getByText(
@@ -175,15 +240,17 @@ describe("ProductListing", () => {
     ).not.toBeInTheDocument();
   });
 
-  it("sorts products from low to high", () => {
-    render(<ProductListing />);
+  /**
+   * -------------------------------------------------------
+   * Price sorting - ascending
+   * -------------------------------------------------------
+   */
 
-    const sortSelect = screen.getByRole(
-      "combobox",
-      {
-        name: "Sort by price",
-      },
-    );
+  it("sorts products from low to high", () => {
+    renderProductListing();
+
+    const sortSelect =
+      getDesktopSortSelect();
 
     fireEvent.change(sortSelect, {
       target: {
@@ -191,9 +258,12 @@ describe("ProductListing", () => {
       },
     });
 
-    const cards = screen.getAllByTestId(
-      "product-card",
-    );
+    expect(sortSelect).toHaveValue("asc");
+
+    const cards =
+      screen.getAllByTestId(
+        "product-card",
+      );
 
     expect(cards).toHaveLength(3);
 
@@ -210,15 +280,17 @@ describe("ProductListing", () => {
     );
   });
 
-  it("sorts products from high to low", () => {
-    render(<ProductListing />);
+  /**
+   * -------------------------------------------------------
+   * Price sorting - descending
+   * -------------------------------------------------------
+   */
 
-    const sortSelect = screen.getByRole(
-      "combobox",
-      {
-        name: "Sort by price",
-      },
-    );
+  it("sorts products from high to low", () => {
+    renderProductListing();
+
+    const sortSelect =
+      getDesktopSortSelect();
 
     fireEvent.change(sortSelect, {
       target: {
@@ -226,9 +298,12 @@ describe("ProductListing", () => {
       },
     });
 
-    const cards = screen.getAllByTestId(
-      "product-card",
-    );
+    expect(sortSelect).toHaveValue("desc");
+
+    const cards =
+      screen.getAllByTestId(
+        "product-card",
+      );
 
     expect(cards).toHaveLength(3);
 
@@ -245,15 +320,19 @@ describe("ProductListing", () => {
     );
   });
 
-  it("shows Clear filters when a filter is active", () => {
-    render(<ProductListing />);
+  /**
+   * -------------------------------------------------------
+   * Clear All visibility
+   * -------------------------------------------------------
+   */
 
-    const searchInput = screen.getByRole(
-      "searchbox",
-      {
-        name: "Search products",
-      },
-    );
+  it("shows Clear All when a filter is active", () => {
+    renderProductListing();
+
+    const searchInput =
+      screen.getByRole("searchbox", {
+        name: "Search",
+      });
 
     fireEvent.change(searchInput, {
       target: {
@@ -263,66 +342,102 @@ describe("ProductListing", () => {
 
     expect(
       screen.getByRole("button", {
-        name: "Clear filters",
+        name: "Clear All",
       }),
     ).toBeInTheDocument();
   });
 
+  /**
+   * -------------------------------------------------------
+   * Clear all filters
+   * -------------------------------------------------------
+   */
+
   it("clears all filters", () => {
-    render(<ProductListing />);
+    renderProductListing();
 
-    const searchInput = screen.getByRole(
-      "searchbox",
-      {
-        name: "Search products",
-      },
-    );
+    const searchInput =
+      screen.getByRole("searchbox", {
+        name: "Search",
+      });
 
-    const categorySelect = screen.getByRole(
-      "combobox",
-      {
-        name: "Category",
-      },
-    );
+    const beautyRadio =
+      screen.getByRole("radio", {
+        name: "beauty",
+      });
 
-    const sortSelect = screen.getByRole(
-      "combobox",
-      {
-        name: "Sort by price",
-      },
-    );
+    const sortSelect =
+      getDesktopSortSelect();
 
+    /**
+     * Apply search filter.
+     */
     fireEvent.change(searchInput, {
       target: {
         value: "mascara",
       },
     });
 
-    fireEvent.change(categorySelect, {
-      target: {
-        value: "beauty",
-      },
-    });
+    /**
+     * Apply category filter.
+     */
+    fireEvent.click(beautyRadio);
 
+    /**
+     * Apply sorting.
+     */
     fireEvent.change(sortSelect, {
       target: {
         value: "desc",
       },
     });
 
-    const clearButton = screen.getByRole(
-      "button",
-      {
-        name: "Clear filters",
-      },
+    expect(searchInput).toHaveValue(
+      "mascara",
     );
+
+    expect(beautyRadio).toBeChecked();
+
+    expect(sortSelect).toHaveValue(
+      "desc",
+    );
+
+    /**
+     * Clear all filters.
+     */
+    const clearButton =
+      screen.getByRole("button", {
+        name: "Clear All",
+      });
 
     fireEvent.click(clearButton);
 
+    /**
+     * Search is reset.
+     */
     expect(searchInput).toHaveValue("");
-    expect(categorySelect).toHaveValue("all");
-    expect(sortSelect).toHaveValue("default");
 
+    /**
+     * Category is reset to "All categories".
+     */
+    expect(
+      screen.getByRole("radio", {
+        name: "All categories",
+      }),
+    ).toBeChecked();
+
+    expect(beautyRadio).not.toBeChecked();
+
+    /**
+     * Sort is reset.
+     */
+    expect(sortSelect).toHaveValue(
+      "default",
+    );
+
+    /**
+     * All products are visible again.
+     */
     expect(
       screen.getByText(
         "Essence Mascara Lash Princess",
@@ -337,22 +452,30 @@ describe("ProductListing", () => {
       screen.getByText("Apple"),
     ).toBeInTheDocument();
 
+    /**
+     * Clear All should disappear when
+     * no filters are active.
+     */
     expect(
       screen.queryByRole("button", {
-        name: "Clear filters",
+        name: "Clear All",
       }),
     ).not.toBeInTheDocument();
   });
 
-  it("shows the empty state when no products match", () => {
-    render(<ProductListing />);
+  /**
+   * -------------------------------------------------------
+   * Empty state
+   * -------------------------------------------------------
+   */
 
-    const searchInput = screen.getByRole(
-      "searchbox",
-      {
-        name: "Search products",
-      },
-    );
+  it("shows the empty state when no products match", () => {
+    renderProductListing();
+
+    const searchInput =
+      screen.getByRole("searchbox", {
+        name: "Search",
+      });
 
     fireEvent.change(searchInput, {
       target: {
@@ -361,7 +484,9 @@ describe("ProductListing", () => {
     });
 
     expect(
-      screen.getByText("No products found"),
+      screen.getByText(
+        "No products found",
+      ),
     ).toBeInTheDocument();
 
     expect(
@@ -372,12 +497,14 @@ describe("ProductListing", () => {
 
     expect(
       screen.getByRole("button", {
-        name: "Clear filters",
+        name: "Clear All",
       }),
     ).toBeInTheDocument();
 
     expect(
-      screen.queryByTestId("product-grid"),
+      screen.queryByTestId(
+        "product-grid",
+      ),
     ).not.toBeInTheDocument();
   });
 });
