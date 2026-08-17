@@ -1,0 +1,1159 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =========================================================
+   WILD FORK — BRAND TOKENS
+   ========================================================= */
+
+:root {
+  --wf-orange: #e94b23;
+  --wf-orange-hover: #c83d1c;
+  --wf-orange-soft: #fff3ef;
+
+  --wf-black: #292929;
+  --wf-gray-dark: #555555;
+  --wf-gray: #777777;
+  --wf-gray-light: #f5f5f3;
+  --wf-border: #e3e3e0;
+
+  --wf-white: #ffffff;
+  --wf-background: #fafaf8;
+
+  --wf-header-height: 98px;
+  --wf-nav-height: 58px;
+}
+
+/* =========================================================
+   BASE
+   ========================================================= */
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply font-euclid-circular-a font-normal text-base text-dark-3 relative z-1;
+    background-color: var(--wf-white);
+  }
+
+  ::selection {
+    background: var(--wf-orange);
+    color: var(--wf-white);
+  }
+}
+
+/* =========================================================
+   COMMON COMPONENTS
+   ========================================================= */
+
+@layer components {
+  .dropdown {
+    @apply flex-col gap-0 min-w-max xl:w-[193px] mt-2 lg:mt-0
+      bg-white shadow-2 ease-in duration-200 py-2.5 rounded-md
+      border border-gray-3 left-0 hidden
+      xl:translate-y-10 xl:opacity-0 xl:invisible
+      xl:absolute xl:flex
+      xl:group-hover:opacity-100 xl:group-hover:visible;
+  }
+}
+
+/* =========================================================
+   UTILITIES
+   ========================================================= */
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* =========================================================
+   SEARCH INPUT
+   ========================================================= */
+
+input[type="search"]::-ms-clear,
+input[type="search"]::-ms-reveal {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+  display: none;
+}
+
+.custom-search {
+  -webkit-border-radius: 0;
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 5px;
+}
+
+/* =========================================================
+   WILD FORK HEADER
+   ========================================================= */
+
+.wf-header {
+  position: relative;
+  z-index: 100;
+  width: 100%;
+  background-color: var(--wf-white);
+  color: var(--wf-black);
+}
+
+.wf-header--sticky {
+  position: sticky;
+  top: 0;
+  box-shadow: 0 4px 18px rgba(41, 41, 41, 0.06);
+}
+
+/* =========================================================
+   HEADER CONTAINER
+   ========================================================= */
+
+.wf-header-container {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+/* =========================================================
+   MAIN HEADER
+   ========================================================= */
+
+.wf-header-main {
+  background-color: var(--wf-white);
+  border-top: 1px solid var(--wf-border);
+  border-bottom: 1px solid var(--wf-border);
+}
+
+.wf-header-row {
+  min-height: var(--wf-header-height);
+
+  display: flex;
+  align-items: center;
+
+  gap: 16px;
+}
+
+/* =========================================================
+   LOGO
+   ========================================================= */
+
+.wf-logo {
+  flex: 0 0 auto;
+
+  display: flex;
+  align-items: center;
+
+  width: 218px;
+
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.wf-logo:hover {
+  opacity: 0.88;
+}
+
+.wf-logo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 42px;
+  object-fit: contain;
+}
+
+/* =========================================================
+   HEADER FILTERS
+   ========================================================= */
+
+.wf-header-filters {
+  min-width: 0;
+  flex: 1;
+
+  display: grid;
+  grid-template-columns: 180px minmax(220px, 1fr) 180px;
+
+  align-items: center;
+
+  gap: 8px;
+}
+
+/* =========================================================
+   CATEGORY / SORT
+   ========================================================= */
+
+.wf-category,
+.wf-sort {
+  position: relative;
+
+  height: 46px;
+
+  display: flex;
+  align-items: center;
+
+  min-width: 0;
+
+  background-color: var(--wf-gray-light);
+  border: 1px solid var(--wf-border);
+  border-radius: 24px;
+
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.wf-category:hover,
+.wf-sort:hover {
+  border-color: var(--wf-orange);
+  background-color: var(--wf-white);
+}
+
+.wf-category:focus-within,
+.wf-sort:focus-within {
+  border-color: var(--wf-orange);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(233, 75, 35, 0.10);
+}
+
+.wf-category select,
+.wf-sort select {
+  appearance: none;
+  -webkit-appearance: none;
+
+  width: 100%;
+  height: 100%;
+
+  border: 0;
+  outline: 0;
+
+  background: transparent;
+
+  color: var(--wf-black);
+
+  font-size: 14px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  padding-left: 46px;
+  padding-right: 34px;
+}
+
+.wf-sort select {
+  padding-left: 20px;
+  padding-right: 36px;
+}
+
+/* =========================================================
+   CATEGORY ICON
+   ========================================================= */
+
+.wf-category-icon {
+  position: absolute;
+  left: 17px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--wf-black);
+
+  pointer-events: none;
+
+  transition: color 180ms ease;
+}
+
+.wf-category:hover .wf-category-icon {
+  color: var(--wf-orange);
+}
+
+/* =========================================================
+   CHEVRON
+   ========================================================= */
+
+.wf-chevron {
+  position: absolute;
+  right: 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--wf-black);
+
+  pointer-events: none;
+
+  transition:
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.wf-category:hover .wf-chevron,
+.wf-sort:hover .wf-chevron {
+  color: var(--wf-orange);
+}
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+.wf-search {
+  position: relative;
+
+  min-width: 0;
+  height: 46px;
+
+  display: flex;
+  align-items: center;
+
+  background-color: var(--wf-gray-light);
+
+  border: 1px solid var(--wf-border);
+  border-radius: 24px;
+
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.wf-search:hover {
+  border-color: var(--wf-orange);
+  background-color: var(--wf-white);
+}
+
+.wf-search:focus-within {
+  border-color: var(--wf-orange);
+  background-color: var(--wf-white);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(233, 75, 35, 0.10);
+}
+
+.wf-search input {
+  width: 100%;
+  height: 100%;
+
+  min-width: 0;
+
+  border: 0;
+  outline: 0;
+
+  background: transparent;
+
+  color: var(--wf-black);
+
+  font-size: 14px;
+
+  padding: 0 48px 0 20px;
+}
+
+.wf-search input::placeholder {
+  color: #999999;
+  opacity: 1;
+}
+
+.wf-search-icon {
+  position: absolute;
+  right: 17px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--wf-black);
+
+  pointer-events: none;
+
+  transition: color 180ms ease;
+}
+
+.wf-search:focus-within .wf-search-icon,
+.wf-search:hover .wf-search-icon {
+  color: var(--wf-orange);
+}
+
+/* =========================================================
+   ACCOUNT
+   ========================================================= */
+
+.wf-account {
+  flex: 0 0 auto;
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  color: var(--wf-black);
+
+  text-decoration: none;
+
+  transition: color 180ms ease;
+}
+
+.wf-account svg {
+  flex: 0 0 auto;
+}
+
+.wf-account span,
+.wf-cart > span:last-child {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.wf-account small,
+.wf-cart small {
+  font-size: 10px;
+  line-height: 12px;
+
+  color: var(--wf-gray);
+
+  letter-spacing: 0.02em;
+}
+
+.wf-account strong,
+.wf-cart strong {
+  font-size: 14px;
+  line-height: 20px;
+
+  font-weight: 600;
+
+  color: var(--wf-black);
+}
+
+.wf-account:hover {
+  color: var(--wf-orange);
+}
+
+.wf-account:hover strong {
+  color: var(--wf-orange);
+}
+
+/* =========================================================
+   CART
+   ========================================================= */
+
+.wf-cart {
+  position: relative;
+
+  flex: 0 0 auto;
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  border: 0;
+  padding: 0;
+
+  background: transparent;
+
+  color: var(--wf-orange);
+
+  cursor: pointer;
+}
+
+.wf-cart:hover {
+  color: var(--wf-orange-hover);
+}
+
+.wf-cart-icon {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wf-cart-count {
+  position: absolute;
+
+  top: -8px;
+  right: -8px;
+
+  min-width: 19px;
+  height: 19px;
+
+  padding: 0 5px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background-color: var(--wf-orange);
+  color: var(--wf-white);
+
+  font-size: 10px;
+  line-height: 1;
+  font-weight: 700;
+}
+
+/* =========================================================
+   SECONDARY NAVIGATION
+   ========================================================= */
+
+.wf-header-nav {
+  height: var(--wf-nav-height);
+
+  display: flex;
+  align-items: center;
+
+  background-color: var(--wf-white);
+  border-bottom: 1px solid var(--wf-border);
+}
+
+.wf-nav-row {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.wf-nav-row nav {
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+}
+
+.wf-nav-row nav ul {
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+
+  gap: 34px;
+
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+.wf-nav-row nav li {
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+}
+
+.wf-nav-row a {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 100%;
+
+  color: var(--wf-black);
+
+  font-size: 14px;
+  font-weight: 500;
+
+  line-height: 1;
+
+  text-decoration: none;
+
+  transition: color 180ms ease;
+}
+
+.wf-nav-row a:hover {
+  color: var(--wf-orange);
+}
+
+/* =========================================================
+   RIGHT SIDE NAVIGATION
+   ========================================================= */
+
+.wf-nav-row > div:last-child {
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+}
+
+/* =========================================================
+   SALE BADGE
+   ========================================================= */
+
+.wf-sale {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 38px;
+  height: 22px;
+
+  padding: 0 8px;
+
+  border-radius: 999px;
+
+  background-color: var(--wf-orange);
+  color: var(--wf-white) !important;
+
+  font-size: 10px !important;
+  font-weight: 700 !important;
+
+  line-height: 1;
+
+  transition:
+    background-color 180ms ease,
+    transform 180ms ease;
+}
+
+.wf-sale:hover {
+  background-color: var(--wf-orange-hover);
+  color: var(--wf-white) !important;
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+   MOBILE MENU BUTTON
+   ========================================================= */
+
+.wf-mobile-menu {
+  display: none;
+
+  width: 42px;
+  height: 42px;
+
+  flex: 0 0 auto;
+
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  gap: 4px;
+
+  border: 1px solid var(--wf-border);
+  border-radius: 50%;
+
+  background-color: var(--wf-gray-light);
+
+  cursor: pointer;
+
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease;
+}
+
+.wf-mobile-menu:hover {
+  border-color: var(--wf-orange);
+  background-color: var(--wf-orange-soft);
+}
+
+.wf-mobile-menu span {
+  display: block;
+
+  width: 17px;
+  height: 2px;
+
+  border-radius: 2px;
+
+  background-color: var(--wf-black);
+}
+
+/* =========================================================
+   MOBILE FILTERS
+   ========================================================= */
+
+.wf-mobile-filters {
+  display: none;
+}
+
+/* =========================================================
+   MOBILE NAVIGATION
+   ========================================================= */
+
+.wf-mobile-navigation {
+  display: none;
+
+  background-color: var(--wf-white);
+  border-bottom: 1px solid var(--wf-border);
+
+  padding: 18px 24px;
+}
+
+.wf-mobile-navigation nav {
+  display: flex;
+  flex-direction: column;
+
+  gap: 14px;
+}
+
+.wf-mobile-navigation a {
+  color: var(--wf-black);
+
+  font-size: 15px;
+  font-weight: 500;
+
+  text-decoration: none;
+}
+
+.wf-mobile-navigation a:hover {
+  color: var(--wf-orange);
+}
+
+/* =========================================================
+   CUSTOM SELECT — LEGACY TEMPLATE
+   ========================================================= */
+
+.custom-select select {
+  display: none;
+}
+
+.select-selected {
+  @apply rounded-l-[5px] border border-gray-3 !border-r-0 cursor-pointer text-custom-sm py-[11px] pl-3.5 pr-8 relative;
+
+  background-color: var(--wf-gray-light);
+  color: var(--wf-black);
+}
+
+.select-selected:after {
+  content: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.00005 5.54998C4.88755 5.54998 4.7938 5.51248 4.70005 5.43748L0.387549 1.19998C0.218799 1.03123 0.218799 0.768726 0.387549 0.599976C0.556299 0.431226 0.818799 0.431226 0.987549 0.599976L5.00005 4.51873L9.01255 0.562476C9.1813 0.393726 9.4438 0.393726 9.61255 0.562476C9.7813 0.731226 9.7813 0.993726 9.61255 1.16248L5.30005 5.39998C5.2063 5.49373 5.11255 5.54998 5.00005 5.54998Z' fill='%23292929'/%3E%3C/svg%3E");
+
+  @apply absolute top-1/2 -translate-y-1/2 right-4.5 ease-out duration-200;
+}
+
+.select-selected.select-arrow-active:after {
+  @apply rotate-180 mt-0.5;
+}
+
+.select-items div {
+  @apply cursor-pointer text-custom-sm py-[7px] px-4.5;
+
+  color: var(--wf-black);
+}
+
+.select-items {
+  @apply absolute top-full left-0 right-0 z-99 shadow-2 border bg-white rounded-md py-2.5 mt-1.5;
+
+  border-color: var(--wf-border);
+}
+
+.select-hide {
+  display: none;
+}
+
+.select-items div:hover,
+.same-as-selected {
+  background-color: var(--wf-orange-soft);
+  color: var(--wf-orange-hover);
+}
+
+/* =========================================================
+   SECONDARY SELECT
+   ========================================================= */
+
+.custom-select-2 .select-selected {
+  @apply bg-white rounded-md !border-r text-dark-4 py-1.5 pl-3 pr-9;
+}
+
+.custom-select-2 .select-selected:after {
+  content: url("data:image/svg+xml,%3Csvg width='14' height='8' viewBox='0 0 14 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.41444 1.03563L1.41443 1.03565L1.41725 1.0384L6.76725 6.2634L7.00126 6.49194L7.23418 6.26229L12.5842 0.987287L12.5842 0.987293L12.5858 0.985629C12.6807 0.890804 12.8196 0.890804 12.9144 0.985629C13.009 1.08018 13.0093 1.21861 12.9153 1.31341C12.915 1.31368 12.9147 1.31395 12.9144 1.31422L7.16652 6.96217L7.16651 6.96216L7.16444 6.96422C7.06814 7.06053 7.02327 7.06659 7.00015 7.06659C6.94122 7.06659 6.89018 7.05216 6.8204 6.99902L1.08502 1.36339C0.991024 1.26859 0.991301 1.13018 1.08585 1.03563C1.18067 0.940804 1.31962 0.940804 1.41444 1.03563Z' fill='%238D93A5' stroke='%238D93A5' stroke-width='0.666667'/%3E%3C/svg%3E");
+
+  @apply right-3.5;
+}
+
+/* =========================================================
+   COMMON SELECT
+   ========================================================= */
+
+.custom-select-common .select-selected {
+  @apply bg-gray-1 rounded-md !border-r text-dark-4 py-3 pl-5 pr-9 duration-200;
+
+  border-color: var(--wf-orange);
+  box-shadow: 0 0 0 2px rgba(233, 75, 35, 0.12);
+}
+
+.custom-select-common .select-selected:after {
+  content: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.41469 5.03569L2.41467 5.03571L2.41749 5.03846L7.76749 10.2635L8.0015 10.492L8.23442 10.2623L13.5844 4.98735L13.5844 4.98735L13.5861 4.98569C13.6809 4.89086 13.8199 4.89087 13.9147 4.98569C14.0092 5.08024 14.0095 5.21864 13.9155 5.31345C13.9152 5.31373 13.915 5.31401 13.9147 5.31429L8.16676 10.9622L8.16676 10.9622L8.16469 10.9643C8.06838 11.0606 8.02352 11.0667 8.00039 11.0667C7.94147 11.0667 7.89042 11.0522 7.82064 10.9991L2.08526 5.36345C1.99127 5.26865 1.99154 5.13024 2.08609 5.03569C2.18092 4.94086 2.31986 4.94086 2.41469 5.03569Z' fill='%238D93A5' stroke='%238D93A5' stroke-width='0.666667'/%3E%3C/svg%3E");
+
+  @apply right-4 block mt-1;
+}
+
+.custom-select-common .select-selected.select-arrow-active:after {
+  @apply -mt-0.5;
+}
+
+/* =========================================================
+   HERO CAROUSEL
+   ========================================================= */
+
+.hero-carousel .swiper-pagination-bullet {
+  @apply h-1 w-4 rounded-[11px] bg-[#DDD];
+}
+
+.hero-carousel .swiper-pagination-bullet-active {
+  @apply w-5.5;
+
+  background-color: var(--wf-orange);
+}
+
+.hero-carousel .swiper-pagination {
+  @apply xl:!bottom-5;
+}
+
+/* =========================================================
+   COMMON CAROUSEL
+   ========================================================= */
+
+.common-carousel .swiper-button-next:after,
+.common-carousel .swiper-button-prev:after {
+  @apply hidden;
+}
+
+.common-carousel .swiper-button-next,
+.common-carousel .swiper-button-prev {
+  @apply !static h-9 w-9 rounded-lg bg-white text-dark border border-gray-3 m-0 ease-out duration-200;
+
+  transition:
+    background-color 180ms ease,
+    color 180ms ease,
+    border-color 180ms ease;
+}
+
+.common-carousel .swiper-button-next:hover,
+.common-carousel .swiper-button-prev:hover {
+  background-color: var(--wf-orange);
+  color: var(--wf-white);
+  border-color: var(--wf-orange);
+}
+
+.common-carousel .swiper-button-next svg,
+.common-carousel .swiper-button-prev svg {
+  @apply w-auto h-auto;
+}
+
+/* =========================================================
+   IMAGE ZOOM
+   ========================================================= */
+
+.img-zoom-container img {
+  transition: 0.8s;
+}
+
+.img-zoom-container img:hover {
+  transform: scale(2) rotate(0deg);
+  transition: 0.8s;
+}
+
+/* =========================================================
+   PRICE SLIDER
+   ========================================================= */
+
+.priceSlide .noUi-target {
+  @apply mb-5 mt-9 border-none bg-transparent shadow-none;
+}
+
+.priceSlide .noUi-connects {
+  @apply h-1 rounded-full bg-gray-3;
+}
+
+.priceSlide .noUi-connect {
+  @apply h-1 rounded-full;
+
+  background-color: var(--wf-orange);
+}
+
+.priceSlide .noUi-horizontal .noUi-handle {
+  @apply -top-3 h-7 w-7 rounded-full border border-gray-4 bg-white shadow-range;
+}
+
+.priceSlide .noUi-horizontal .noUi-handle::before {
+  @apply block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full;
+
+  background-color: var(--wf-orange);
+}
+
+.priceSlide .noUi-tooltip {
+  @apply border-none p-0 bg-transparent text-custom-sm text-dark-4;
+}
+
+.noUi-horizontal .noUi-handle:after,
+.noUi-horizontal .noUi-handle:before {
+  @apply hidden;
+}
+
+/* =========================================================
+   RANGE SLIDER
+   ========================================================= */
+
+.range-slider {
+  @apply w-full !h-[4px] rounded-md relative mb-3;
+
+  background-color: var(--wf-orange);
+}
+
+.slider .thumb {
+  @apply w-6 h-6 rounded-full absolute -top-2 border-[5px];
+
+  background-color: var(--wf-orange);
+  border-color: #ffe0d6;
+}
+
+.range-slider__thumb {
+  @apply !bg-white border-[1px] flex justify-center items-center !w-7 !h-7;
+
+  border-color: #f3c8ba;
+}
+
+.range-slider__thumb::after {
+  content: "";
+
+  width: 16px;
+  height: 16px;
+
+  display: block;
+
+  border-radius: 100%;
+
+  position: absolute;
+
+  background-color: var(--wf-orange);
+}
+
+.range-slider__range {
+  @apply !bg-transparent;
+
+  background-color: var(--wf-orange) !important;
+}
+
+/* =========================================================
+   RESPONSIVE — TABLET
+   ========================================================= */
+
+@media (max-width: 1199px) {
+  .wf-header-container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .wf-logo {
+    width: 180px;
+  }
+
+  .wf-header-filters {
+    grid-template-columns: 155px minmax(180px, 1fr) 155px;
+  }
+
+  .wf-account {
+    gap: 6px;
+  }
+
+  .wf-account strong,
+  .wf-cart strong {
+    font-size: 13px;
+  }
+
+  .wf-nav-row nav ul {
+    gap: 24px;
+  }
+}
+
+/* =========================================================
+   RESPONSIVE — TABLET / SMALL LAPTOP
+   ========================================================= */
+
+@media (max-width: 1023px) {
+  :root {
+    --wf-header-height: 86px;
+  }
+
+  .wf-header-row {
+    gap: 10px;
+  }
+
+  .wf-logo {
+    width: 165px;
+  }
+
+  .wf-header-filters {
+    grid-template-columns: 145px minmax(150px, 1fr) 145px;
+    gap: 6px;
+  }
+
+  .wf-category select,
+  .wf-sort select,
+  .wf-search input {
+    font-size: 13px;
+  }
+
+  .wf-account small,
+  .wf-cart small {
+    display: none;
+  }
+
+  .wf-account strong,
+  .wf-cart strong {
+    font-size: 12px;
+  }
+
+  .wf-nav-row nav ul {
+    gap: 20px;
+  }
+}
+
+/* =========================================================
+   RESPONSIVE — MOBILE
+   ========================================================= */
+
+@media (max-width: 767px) {
+  :root {
+    --wf-header-height: 72px;
+  }
+
+  .wf-header-container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .wf-header-row {
+    min-height: var(--wf-header-height);
+
+    gap: 10px;
+  }
+
+  .wf-logo {
+    width: 150px;
+  }
+
+  .wf-logo img {
+    max-height: 34px;
+  }
+
+  /*
+   * Desktop filters are hidden.
+   */
+  .wf-header-filters {
+    display: none;
+  }
+
+  /*
+   * Account remains visible.
+   */
+  .wf-account {
+    margin-left: auto;
+  }
+
+  .wf-account svg {
+    width: 21px;
+    height: 21px;
+  }
+
+  .wf-account small {
+    display: none;
+  }
+
+  /*
+   * Cart remains visible.
+   */
+  .wf-cart {
+    gap: 0;
+  }
+
+  .wf-cart > span:last-child {
+    display: none;
+  }
+
+  /*
+   * Mobile menu.
+   */
+  .wf-mobile-menu {
+    display: flex;
+  }
+
+  /*
+   * Secondary desktop navigation hidden.
+   */
+  .wf-header-nav {
+    display: none;
+  }
+
+  /*
+   * Mobile filter row.
+   */
+  .wf-mobile-filters {
+    display: grid;
+
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(0, 1.4fr);
+
+    gap: 8px;
+
+    padding-bottom: 12px;
+  }
+
+  .wf-mobile-filters .wf-sort {
+    grid-column: 1 / -1;
+  }
+
+  .wf-mobile-navigation {
+    display: block;
+  }
+}
+
+/* =========================================================
+   RESPONSIVE — SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 480px) {
+  .wf-logo {
+    width: 135px;
+  }
+
+  .wf-account span {
+    display: none;
+  }
+
+  .wf-account {
+    margin-left: auto;
+  }
+
+  .wf-mobile-filters {
+    grid-template-columns: 1fr;
+  }
+
+  .wf-mobile-filters .wf-sort {
+    grid-column: auto;
+  }
+}
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .wf-header *,
+  .wf-header *::before,
+  .wf-header *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

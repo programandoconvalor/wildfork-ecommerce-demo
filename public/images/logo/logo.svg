@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="52" viewBox="0 0 240 52" fill="none">
+  <title>Wild Fork</title>
+  <desc>Modern Wild Fork wordmark with an orange fork-inspired symbol.</desc>
+
+  <!-- Modern orange fork-inspired mark -->
+  <g transform="translate(2 8)">
+    <path d="M18 0C8.06 0 0 8.06 0 18s8.06 18 18 18c4.8 0 9.17-1.88 12.41-4.95l-3.15-3.15A13.55 13.55 0 0 1 18 31.5C10.54 31.5 4.5 25.46 4.5 18S10.54 4.5 18 4.5c3.77 0 7.19 1.54 9.65 4.01l3.18-3.12A17.94 17.94 0 0 0 18 0Z" fill="#E94B23"/>
+    <path d="M12.2 9.2v10.1c0 2.35 1.9 4.25 4.25 4.25h3.1v8.05h4.5v-8.05h.35c2.35 0 4.25-1.9 4.25-4.25V9.2h-3.25v9.15c0 .55-.45 1-1 1h-8.0c-.55 0-1-.45-1-1V9.2H12.2Z" fill="#E94B23"/>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="52" y="35"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="31"
+        font-weight="700"
+        letter-spacing="-1.15"
+        fill="#292929">Wild Fork</text>
+</svg>
